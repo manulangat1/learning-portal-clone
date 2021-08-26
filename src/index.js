@@ -3,8 +3,12 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import modules from './modules';
-require('dotenv').config();
+import dotenv from 'dotenv'
+// require('dotenv').config();
 
+
+dotenv.config()
+console.log(process.env.TEST_DATABASE_URL)
 const port = process.env.PORT || 8000;
 const app = express();
 
