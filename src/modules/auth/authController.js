@@ -12,6 +12,7 @@ class AuthController {
             const saltRounds = 10;
 
             //check if user already exists
+            console.log(req.body.email)
             const userExists = await models.User.findOne({
                 where: {email: req.body.email},
             });
@@ -35,6 +36,7 @@ class AuthController {
             })
             
         } catch (error) {
+            console.log(error)
             errorHandler.handleError(error, 500, res);
         }
     }
@@ -170,7 +172,8 @@ class AuthController {
 
             
         } catch (error) {
-            errorHandler.handleError(error, 500, res);
+            console.log(error)
+            errorHandler.handleError(error.message, 500, res);
         }
     }
 

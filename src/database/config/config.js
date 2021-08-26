@@ -1,10 +1,8 @@
-
+require('dotenv').config()
+console.log(process.env.TEST_DATABASE_URL)
 const dbConfig = {
   development: {
-    username: "",
-    password: null,
-    database: "phidi_db",
-    host: "127.0.0.1",
+    use_env_variable: 'TEST_DATABASE_URL',
     dialect: "postgres",
     operatorsAliases: false
   },
