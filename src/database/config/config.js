@@ -4,7 +4,7 @@ const dbConfig = {
   development: {
     use_env_variable: 'TEST_DATABASE_URL',
     dialect: "postgres",
-    operatorsAliases: false
+    // operatorsAliases: false
   },
   test: {
     username: "root",
