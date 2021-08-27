@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) =>
     company: DataTypes.STRING,
     city: DataTypes.STRING,
     token: DataTypes.STRING,
+    image:DataTypes.STRING,
     status: DataTypes.INTEGER
   }, {});
   User.associate = function(models) {
