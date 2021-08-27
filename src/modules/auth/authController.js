@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SendGridHelper from './../../helpers/sendGridHandler';
 import errorHandler from './../../helpers/errorHandler';
 import models from './../../database/models';
+import AWS3 from '../../helpers/s3';
 
 class AuthController {
     static async createUser(req, res) {
@@ -24,8 +25,9 @@ class AuthController {
             }
             const token = uuidv4();
             const hashedPassword = await bcrypt.hash(req.body.password, saltRounds).then((hash) => hash);
-
-            const result = await models.User.create({firstName: req.body.name, lastName: req.body.lastname, email: req.body.email, password: hashedPassword, token});
+            const userImage = await AWS3.uploadsFile(req.file);
+            console.log(userImage.Location)
+            const result = await models.User.create({firstName: req.body.name, lastName: req.body.lastname, email: req.body.email, password: hashedPassword, image:userImage.Location,token});
             
             SendGridHelper.sendConfirmationMail(token, req.body.email);
 

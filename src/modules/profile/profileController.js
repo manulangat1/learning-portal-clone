@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import errorHandler from './../../helpers/errorHandler';
 import models from './../../database/models';
+import chatroom from '../../database/models/chatroom';
 
 class ProfileController {
     static async fetchProfile(req, res) {
@@ -13,6 +14,14 @@ class ProfileController {
 
             const user = await models.User.findOne({
                 where: {email: email},
+                include:[
+                    {
+                        model:models.ChatRoom,
+                        required:false
+                    },
+                    'followers',
+                    'following'
+                ]
             });
 
         return res.status(200).json({
