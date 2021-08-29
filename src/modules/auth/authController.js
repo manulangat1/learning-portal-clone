@@ -60,7 +60,7 @@ class AuthController {
 
                         const token = jwt.sign({
                         email,
-                        }, 'secret', { expiresIn: '2h' });
+                        }, 'secret', { expiresIn: '25h' });
 
                         return res.status(200).json({
                         success: true,

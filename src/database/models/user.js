@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) =>
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Posts,{
-      foreign_key:'authorId'
+      foreign_key:'UserId'
     })
     User.belongsToMany(models.ChatRoom,{
       through:'ChatAsses',
@@ -41,8 +41,17 @@ module.exports = (sequelize, DataTypes) =>
       as: 'following'
       
     });
-
-
+    User.hasMany(models.Message,{
+      foreign_key:'from',
+      // otherKey:'to',
+      foreignKey:'to'
+      // as:'from'
+    })
+    // User.hasMany(models.Message,{
+    //   foreign_key:'to',
+    //   otherKey:'from',
+    //   as:'to'
+    // })
   };
   return User;
 };

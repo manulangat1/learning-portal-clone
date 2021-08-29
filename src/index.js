@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 console.log(process.env.TEST_DATABASE_URL)
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 const app = express();
 
 app.use(bodyParser.json());

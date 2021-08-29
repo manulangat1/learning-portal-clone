@@ -1,4 +1,4 @@
-import { Posts, ChatRoom , ChatAsses} from '../../database/models';
+import { Posts, ChatRoom , ChatAsses , UserFollowers} from '../../database/models';
 import responseHandler from '../../helpers/responseHandler';
 import errorHandler from '../../helpers/errorHandler'
 
@@ -54,8 +54,21 @@ class postController{
     }
 
     static async fetchPosts(req,res){
+        const following = await UserFollowers.findAll({raw:true,where:{follower_id:req.user.id}, order:[['createdAt','DESC']]})
+        console.log(following);
+        const followIds = []
+        following.map(user => followIds.push(user.id))
+        followIds.push(req.user.id)
         const posts = await Posts.findAll({where:{UserId:req.user.id}})
         return responseHandler(res,"Loaded successfully",200,posts)
+    }
+    static async toggleFollower(req,res){
+        const isFollowing = await UserFollowers.findOne({where:{user_id:req.user.id,follower_id:req.params.id}});
+        if (isFollowing){
+            return responseHandler(res,'Already Following',404,'Already following')
+        }
+        await UserFollowers.create({user_id:req.params.id ,follower_id:req.user.id})
+        return responseHandler(res,"Followed successfully",201,req.user)
     }
 }
 
