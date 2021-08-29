@@ -1,13 +1,22 @@
 import { response } from 'express';
 import { Message } from '../../database/models'
 import responseHandler from '../../helpers/responseHandler';
-
+const { Op } = require("sequelize");
 
 
 class messageController {
 
     static async loadMessages(req,res){
-        const messages = await Message.findAll({where:{from:req.user.id, to:req.params.id}});
+        const messages = await Message.findAll({where:{
+            [Op.or]:[
+                {
+                    from:req.user.id, to:req.params.id
+                },
+                {
+                    to:req.user.id, from:req.params.id
+                }
+            ]
+        }});
         return responseHandler(res,"Messages Loaded successfully",200,messages)
     }
     static async createMessage(req,res){
